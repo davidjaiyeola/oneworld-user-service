@@ -2,7 +2,7 @@ package com.oneworld.accuracy.model;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class User {
@@ -15,7 +15,7 @@ public class User {
     private String mobile;
     private String password;
     private boolean Verified;
-    private LocalDateTime dateRegistered;
-    private LocalDateTime dateVerified;
-    private LocalDateTime dateDeactivated;
+    private Date dateRegistered;
+    private Date dateVerified;
+    private Date dateDeactivated;
 }
