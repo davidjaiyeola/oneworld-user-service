@@ -1,0 +1,14 @@
+server:
+  port: 9001
+spring:
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/userservicedb?useSSL=false
+    username: root
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate.ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true

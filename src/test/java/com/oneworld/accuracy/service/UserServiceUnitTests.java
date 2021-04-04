@@ -53,6 +53,7 @@ public class UserServiceUnitTests {
         assertThat(userService.findAllPaginated(0,10,"id" ).size(), is(0));
         Mockito.verify(userRepository, Mockito.times(1)).findAll(paging);
     }
+
     @Test
     public void findAll_When_No_Record() {
         Mockito.when(userRepository.findAll()).thenReturn(Arrays.asList());
