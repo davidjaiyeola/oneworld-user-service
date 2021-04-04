@@ -13,7 +13,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "user")
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -32,6 +32,7 @@ public class User {
     @NonNull
     private String email;
     private String mobile;
+    //@TODO save encrypted
     private String password;
     private boolean Verified;
     private Date dateRegistered;
