@@ -63,7 +63,10 @@ public class UserController {
     @ApiOperation(value = "Create User", response = UserDto.class, consumes = "application/json", produces = "application/json")
     @PostMapping("/user")
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserCreateDto userCreateDto) {
-        return ResponseEntity.ok(userService.entityToDto(userService.createOrUpdate(userService.createDtoToEntity(userCreateDto))));
+        Optional<User> userOptional = userService.findByEmail(userCreateDto.getEmail());
+        User user = userService.createDtoToEntity(userCreateDto, userOptional.get());;
+
+        return ResponseEntity.ok(userService.entityToDto(userService.createOrUpdate(user)));
     }
 
     @GetMapping("/user/{id}")
