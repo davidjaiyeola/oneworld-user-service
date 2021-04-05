@@ -71,7 +71,7 @@ public class UserControllerUnitTest {
     @Test
     void create() {
         ResponseEntity<UserDto> create1 = userController.create(userCreateDto);
-        Mockito.verify(userService, Mockito.times(1)).createOrUpdate(userService.createDtoToEntity(userCreateDto));
+        Mockito.verify(userService, Mockito.times(1)).createOrUpdate(userService.createDtoToEntity(userCreateDto, null));
     }
 
     @Test

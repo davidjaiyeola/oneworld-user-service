@@ -1,6 +1,15 @@
 server:
   port: 9001
 spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:9001
+#      metadata:
+#        user:
+#          name: admin
+#          password: admin
+
   flyway:
     enabled: true
   datasource:
@@ -19,3 +28,24 @@ one-accuracy:
   email-port: 587
   confirmToken: http://localhost:9001/api/user/verify
   enableEmail: true
+
+security:
+  basic:
+    enabled: false
+
+management:
+  context-path: /mgmt
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+    shutdown:
+      enabled: true
+    logfile:
+      external-file: logs/client.log.log
+logging:
+  file:
+    name: logs/client.log
