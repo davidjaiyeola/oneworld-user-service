@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public void deleteById(long id) {
         userRepository.deleteById(id);
     }
@@ -185,8 +190,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createDtoToEntity(UserCreateDto dto){
-        User user = new User();
+    public User createDtoToEntity(UserCreateDto dto, User user){
+        if(user == null){
+            user = new User();
+        }
+
         user.setEmail(dto.getEmail());
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());

@@ -14,11 +14,12 @@ public interface UserService {
     List<User> findAllPaginated(Integer pageNo, Integer pageSize, String sortBy);
     List<User> findAll();
     Optional<User> findById(long id);
+    Optional<User> findByEmail(String email);
     void deleteById(long id);
     User createOrUpdate(User user);
     void deactivateUser(long id) throws DataValidationException;
     UserDto entityToDto(User user);
-    User createDtoToEntity(UserCreateDto dto);
+    User createDtoToEntity(UserCreateDto dto, User user);
     User updateDtoToEntity(UserUpdateDto dto, User user);
 
     User verifyUserByToken(String token);
