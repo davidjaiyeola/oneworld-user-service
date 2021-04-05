@@ -10,8 +10,8 @@ spring:
     enabled: true
   datasource:
     url: jdbc:mysql://localhost:3306/userservicedbdocker?useSSL=false
-    username: root
-    password: dn24dn24
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate.ddl-auto: validate
@@ -19,8 +19,8 @@ spring:
     show-sql: true
 one-accuracy:
   email-host: smtp.gmail.com
-  email-username: mannasoft.rd@gmail.com
-  email-password: xxxx
+  email-username: ${EMAIL_USERNAME}
+  email-password: ${EMAIL_PASSWORD}
   email-port: 587
   confirmToken: http://localhost:9001/api/user/verify
   enableEmail: true
