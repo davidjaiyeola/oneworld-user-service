@@ -12,12 +12,14 @@ import com.oneworld.accuracy.util.DataValidationException;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -25,10 +27,18 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private UserRepository userRepository;
     private VerificationTokenRepository verificationTokenRepository;
+    private MailContentBuilderService mailContentBuilderService;
+    private EmailService emailService;
+    @Value("${one-accuracy.confirmToken}")
+    protected String confirmToken;
+    @Value("${one-accuracy.enableEmail}")
+    protected boolean enableEmail;
 
-    public UserServiceImpl(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository) {
+    public UserServiceImpl(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, MailContentBuilderService mailContentBuilderService, EmailService emailService) {
         this.userRepository = userRepository;
         this.verificationTokenRepository = verificationTokenRepository;
+        this.mailContentBuilderService = mailContentBuilderService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -61,10 +71,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createOrUpdate(User user) {
-        user = userRepository.save(user);
-        createToken(user.getId());
         user.setStatus(UserStatus.REGISTERED);
         user.setDateRegistered(new Date());
+        user = userRepository.save(user);
+        VerificationToken token = createToken(user.getId());
+
+        if(enableEmail) {
+            HashMap<String, Object> model = new HashMap<>();
+            model.put("name", user.getFullName());
+            model.put("date", LocalDate.now().toString());
+            String url = confirmToken + "/" + token.getConfirmationToken();
+            model.put("CallbackUrl", url);
+            String content = mailContentBuilderService.build(model, "UserConfirmation");
+            content = content.replaceAll("CallbackUrl", confirmToken);
+            emailService.sendEmail(null, null, content, "Email Verification", user.getFullName(), null);
+        }
+
         return user;
     }
 
@@ -79,6 +101,12 @@ public class UserServiceImpl implements UserService {
         user.setStatus(UserStatus.DEACTIVATED);
 
         userRepository.save(user);
+        if(enableEmail) {
+            HashMap<String, Object> model = new HashMap<>();
+            model.put("name", user.getFullName());
+            String content = mailContentBuilderService.build(model, "DeactivationNotification");
+            emailService.sendEmail(null, null, content, "Password Reset", user.getFullName(), null);
+        }
     }
 
     @Override
@@ -145,6 +173,13 @@ public class UserServiceImpl implements UserService {
         verificationToken.setActivated(true);
         verificationToken.setExpired(true);
         verificationTokenRepository.save(verificationToken);
+
+        if(enableEmail) {
+            HashMap<String, Object> model = new HashMap<>();
+            model.put("name", user.getFullName());
+            String content = mailContentBuilderService.build(model, "VerificationNotification");
+            emailService.sendEmail(null, null, content, "Password Reset", user.getFullName(), null);
+        }
 
         return user;
     }

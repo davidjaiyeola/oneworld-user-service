@@ -43,4 +43,8 @@ public class User {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
+
+    public String getFullName(){
+        return this.getFirstname() +" " + this.getLastname();
+    }
 }
