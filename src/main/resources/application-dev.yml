@@ -5,15 +5,11 @@ spring:
     admin:
       client:
         url: http://localhost:9001
-#      metadata:
-#        user:
-#          name: admin
-#          password: admin
 
   flyway:
     enabled: true
   datasource:
-    url: jdbc:mysql://localhost:3306/userservicedb?useSSL=false
+    url: jdbc:mysql://localhost:3306/userservicedbdocker?useSSL=false
     username: root
     password: dn24dn24
     driver-class-name: com.mysql.jdbc.Driver

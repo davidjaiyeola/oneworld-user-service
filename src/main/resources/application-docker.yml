@@ -1,0 +1,47 @@
+server:
+  port: 9001
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:9001
+
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:mysql://host.docker.internal:3306/userservicedb?useSSL=false
+    username: root
+    password: dn24dn24
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+one-accuracy:
+  email-host: smtp.gmail.com
+  email-username: mannasoft.rd@gmail.com
+  email-password: xxxx
+  email-port: 587
+  confirmToken: http://localhost:9001/api/user/verify
+  enableEmail: true
+
+security:
+  basic:
+    enabled: false
+
+management:
+  context-path: /mgmt
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+    shutdown:
+      enabled: true
+    logfile:
+      external-file: logs/client.log.log
+logging:
+  file:
+    name: logs/client.log
