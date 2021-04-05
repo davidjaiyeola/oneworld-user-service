@@ -1,16 +1,18 @@
 package com.oneworld.accuracy.dto;
 
-import com.oneworld.accuracy.model.UserRole;
-import com.oneworld.accuracy.model.UserStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private Long id;
-    private UserStatus status;
-    private UserRole role;
+    private String status;
+    private String role;
     private String title;
     private String firstname;
     private String lastname;

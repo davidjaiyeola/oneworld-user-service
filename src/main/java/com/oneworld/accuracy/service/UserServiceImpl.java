@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserService {
         dto.setTitle(user.getTitle());
         dto.setDateDeactivated(user.getDateDeactivated());
         dto.setDateRegistered(user.getDateRegistered());
-        dto.setStatus(user.getStatus());
+        dto.setStatus((user.getStatus()== null?null:user.getStatus().getName()));
+        dto.setRole((user.getRole()== null?null:user.getRole().getName()));
         dto.setEmail(user.getEmail());
         dto.setDateVerified(user.getDateVerified());
         dto.setFirstname(user.getFirstname());

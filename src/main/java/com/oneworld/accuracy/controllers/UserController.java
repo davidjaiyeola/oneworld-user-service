@@ -56,12 +56,12 @@ public class UserController {
         return new ResponseEntity<>(users, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/user")
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserCreateDto userCreateDto) {
         return ResponseEntity.ok(userService.entityToDto(userService.createOrUpdate(userService.createDtoToEntity(userCreateDto))));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable long id) {
         Optional<User> user = userService.findById(id);
         if (!user.isPresent()) {
@@ -85,7 +85,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity deleteById(@PathVariable long id) throws DataValidationException {
+    public ResponseEntity deactivateById(@PathVariable long id) throws DataValidationException {
         Optional<User> p = userService.findById(id);
         if (!p.isPresent()) {
             String error = "User with id " + id + " does not exist.";
@@ -94,6 +94,20 @@ public class UserController {
         }
 
         userService.deactivateUser(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/user/deleteFromDB/{id}")
+    public ResponseEntity deleteById(@PathVariable long id) {
+        Optional<User> p = userService.findById(id);
+
+        if (!p.isPresent()) {
+            String error = "User with id " + id + " does not exist.";
+            log.error(error);
+            throw new DataValidationException(error);
+        }
+
+        userService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }
