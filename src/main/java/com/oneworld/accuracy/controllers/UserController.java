@@ -7,6 +7,8 @@ import com.oneworld.accuracy.dto.UserUpdateDto;
 import com.oneworld.accuracy.model.User;
 import com.oneworld.accuracy.service.UserService;
 import com.oneworld.accuracy.util.DataValidationException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping({"/api"})
+@Api(value = "User", description = "Rest API for User operations", tags = "User API")
 @Slf4j
 public class UserController {
 
@@ -45,6 +48,7 @@ public class UserController {
         return exceptionDto;
     }
 
+    @ApiOperation(value = "Get Users", response = List.class, produces = "application/json")
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers(
             @RequestParam(defaultValue = "0") Integer pageNo,
@@ -56,6 +60,7 @@ public class UserController {
         return new ResponseEntity<>(users, new HttpHeaders(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Create User", response = UserDto.class, consumes = "application/json", produces = "application/json")
     @PostMapping("/user")
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserCreateDto userCreateDto) {
         return ResponseEntity.ok(userService.entityToDto(userService.createOrUpdate(userService.createDtoToEntity(userCreateDto))));
@@ -72,11 +77,13 @@ public class UserController {
         return ResponseEntity.ok(userService.entityToDto(user.get()));
     }
 
+    @ApiOperation(value = "Verify User", response = UserDto.class, produces = "application/json")
     @GetMapping("/user/verify/{token}")
     public ResponseEntity<UserDto> verifyUserById(@PathVariable String token) {
         return ResponseEntity.ok(userService.entityToDto(userService.verifyUserByToken(token)));
     }
 
+    @ApiOperation(value = "Update User", response = UserDto.class, consumes = "application/json", produces = "application/json")
     @PutMapping(value="/user/{id}")
     public ResponseEntity<UserDto> update(@PathVariable long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
         Optional<User> user = userService.findById(id);
@@ -89,6 +96,7 @@ public class UserController {
         return ResponseEntity.ok(userService.entityToDto(userService.createOrUpdate(userService.updateDtoToEntity(userUpdateDto, user.get()))));
     }
 
+    @ApiOperation(value = "Deactivate User")
     @DeleteMapping("/user/{id}")
     public ResponseEntity deactivateById(@PathVariable long id) throws DataValidationException {
         Optional<User> p = userService.findById(id);
@@ -102,6 +110,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "Delete User from DB")
     @DeleteMapping("/user/deleteFromDB/{id}")
     public ResponseEntity deleteById(@PathVariable long id) {
         Optional<User> p = userService.findById(id);
