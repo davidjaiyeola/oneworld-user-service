@@ -1,15 +1,11 @@
 package com.oneworld.accuracy.dto;
 
 import com.oneworld.accuracy.model.UserRole;
-import com.oneworld.accuracy.model.UserStatus;
 import lombok.Data;
 
-import java.util.Date;
-
+//@AllArgsConstructor
 @Data
-public class UserDto {
-    private Long id;
-    private UserStatus status;
+public class UserUpdateDto {
     private UserRole role;
     private String title;
     private String firstname;
@@ -17,8 +13,7 @@ public class UserDto {
     private String email;
     private String mobile;
     private String password;
-    private boolean Verified;
-    private Date dateRegistered;
-    private Date dateVerified;
-    private Date dateDeactivated;
+
+    public UserUpdateDto() {
+    }
 }
