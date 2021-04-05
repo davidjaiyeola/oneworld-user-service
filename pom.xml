@@ -138,6 +138,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.oneworld.accuracy.UserServiceApplication</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.flywaydb</groupId>
