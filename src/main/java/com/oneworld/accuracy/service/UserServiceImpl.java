@@ -5,25 +5,30 @@ import com.oneworld.accuracy.dto.UserDto;
 import com.oneworld.accuracy.dto.UserUpdateDto;
 import com.oneworld.accuracy.model.User;
 import com.oneworld.accuracy.model.UserStatus;
+import com.oneworld.accuracy.model.VerificationToken;
 import com.oneworld.accuracy.repository.UserRepository;
+import com.oneworld.accuracy.repository.VerificationTokenRepository;
 import com.oneworld.accuracy.util.DataValidationException;
+import org.apache.commons.lang.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private UserRepository userRepository;
+    private VerificationTokenRepository verificationTokenRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository) {
         this.userRepository = userRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     @Override
@@ -56,7 +61,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createOrUpdate(User user) {
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        createToken(user.getId());
+        user.setStatus(UserStatus.REGISTERED);
+        user.setDateRegistered(new Date());
+        return user;
     }
 
     @Override
@@ -103,6 +112,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User verifyUserByToken(String token) {
+        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getVerificationTokenByConfirmationToken(token);
+        if (!verificationTokenOptional.isPresent()) {
+            String error = "Token with id " + token + " does not exist.";
+            log.error(error);
+            throw new DataValidationException(error);
+        }
+        VerificationToken verificationToken = verificationTokenOptional.get();
+        if(verificationToken.isActivated()){
+            throw new DataValidationException("Token already used");
+        }
+
+        if(verificationToken.isExpired()){
+            throw new DataValidationException("Token expired");
+        }
+
+        if(verificationToken.getExpiryDate().getTime() < new Date().getTime()){
+            verificationToken.setActivated(true);
+            verificationToken.setExpired(true);
+            verificationTokenRepository.save(verificationToken);
+            throw new DataValidationException("Token expired");
+        }
+
+        Optional<User> userOptional = findById(verificationToken.getUserId());
+        User user = userOptional.get();
+        user.setDateVerified(new Date());
+        user.setVerified(true);
+        user.setStatus(UserStatus.VERIFIED);
+        userRepository.save(user);
+
+        verificationToken.setActivated(true);
+        verificationToken.setExpired(true);
+        verificationTokenRepository.save(verificationToken);
+
+        return user;
+    }
+
+    @Override
     public User createDtoToEntity(UserCreateDto dto){
         User user = new User();
         user.setEmail(dto.getEmail());
@@ -112,6 +159,21 @@ public class UserServiceImpl implements UserService {
         user.setMobile(dto.getMobile());
         user.setTitle(dto.getTitle());
         return user;
+    }
+
+    protected VerificationToken createToken(Long userId){
+        VerificationToken verificationToken =  new VerificationToken();
+        verificationToken.setActivated(false);
+        //@TODO encode to base64
+        verificationToken.setConfirmationToken(UUID.randomUUID().toString());
+        verificationToken.setExpired(false);
+        verificationToken.setUserId(userId);
+        verificationToken.setExpiryDate(DateUtils.addHours(new Date(), 1));
+
+        verificationTokenRepository.save(verificationToken);
+
+        return verificationToken;
+
     }
 
 }
