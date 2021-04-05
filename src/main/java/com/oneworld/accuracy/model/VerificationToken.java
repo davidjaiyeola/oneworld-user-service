@@ -1,7 +1,6 @@
 package com.oneworld.accuracy.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Entity(name = "verification_token")
 @Data
 public class VerificationToken {
