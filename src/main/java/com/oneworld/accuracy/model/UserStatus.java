@@ -14,7 +14,9 @@ public enum UserStatus {
         return Stream.of(UserStatus.values());
     }
 
-    public String getLevel() {
+    public String getName() {
         return name;
     }
+
+
 }

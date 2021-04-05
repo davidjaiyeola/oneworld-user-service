@@ -14,7 +14,7 @@ public enum UserRole {
         return Stream.of(UserRole.values());
     }
 
-    public String getLevel() {
+    public String getName() {
         return name;
     }
 }
