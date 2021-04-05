@@ -72,6 +72,11 @@ public class UserController {
         return ResponseEntity.ok(userService.entityToDto(user.get()));
     }
 
+    @GetMapping("/user/verify/{token}")
+    public ResponseEntity<UserDto> verifyUserById(@PathVariable String token) {
+        return ResponseEntity.ok(userService.entityToDto(userService.verifyUserByToken(token)));
+    }
+
     @PutMapping(value="/user/{id}")
     public ResponseEntity<UserDto> update(@PathVariable long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
         Optional<User> user = userService.findById(id);

@@ -20,4 +20,6 @@ public interface UserService {
     UserDto entityToDto(User user);
     User createDtoToEntity(UserCreateDto dto);
     User updateDtoToEntity(UserUpdateDto dto, User user);
+
+    User verifyUserByToken(String token);
 }
