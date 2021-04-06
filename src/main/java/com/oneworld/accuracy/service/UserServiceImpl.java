@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyUserByToken(String token) {
-        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getVerificationTokenByConfirmationToken(token);
+        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getByConfirmationToken(token);
         if (!verificationTokenOptional.isPresent()) {
             String error = "Token with id " + token + " does not exist.";
             log.error(error);
@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
             throw new DataValidationException("Token expired");
         }
 
-        Optional<User> userOptional = findById(verificationToken.getUserId());
+        Optional<User> userOptional = this.findById(verificationToken.getUserId());
         User user = userOptional.get();
         user.setDateVerified(new Date());
         user.setVerified(true);

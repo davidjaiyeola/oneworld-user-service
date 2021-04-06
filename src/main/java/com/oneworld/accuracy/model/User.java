@@ -13,7 +13,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity(name = "user")
+@Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class User {
