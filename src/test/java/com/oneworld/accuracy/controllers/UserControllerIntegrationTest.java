@@ -46,6 +46,16 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
+    public void deactivate_user() {
+
+    }
+
+    @Test
+    public void activate_user() {
+
+    }
+
+    @Test
     public void findAllPaginated() {
         ResponseEntity<UserDto[]> result = this.restTemplate
                 .getForEntity("http://127.0.0.1:"+port+"/api/users", UserDto[].class);
