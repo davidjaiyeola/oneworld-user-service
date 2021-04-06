@@ -13,7 +13,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity(name = "user")
+@Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -21,8 +21,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
     @NonNull
+    @Enumerated(EnumType.STRING)
     private UserRole role;
     private String title;
     @NonNull

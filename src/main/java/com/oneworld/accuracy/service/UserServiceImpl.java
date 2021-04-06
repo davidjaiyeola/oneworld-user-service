@@ -89,7 +89,9 @@ public class UserServiceImpl implements UserService {
             model.put("CallbackUrl", url);
             String content = mailContentBuilderService.build(model, "UserConfirmation");
             content = content.replaceAll("CallbackUrl", confirmToken);
-            emailService.sendEmail(null, null, content, "Email Verification", user.getFullName(), null);
+
+            String[] to = {user.getEmail()};
+            emailService.sendMessage("support@oneaccuracy.com", to, content, "Confirm Email");
         }
 
         return user;
@@ -110,7 +112,9 @@ public class UserServiceImpl implements UserService {
             HashMap<String, Object> model = new HashMap<>();
             model.put("name", user.getFullName());
             String content = mailContentBuilderService.build(model, "DeactivationNotification");
-            emailService.sendEmail(null, null, content, "Password Reset", user.getFullName(), null);
+
+            String[] to = {user.getEmail()};
+            emailService.sendMessage("support@oneaccuracy.com", to, content, "Password Reset");
         }
     }
 
@@ -136,6 +140,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateDtoToEntity(UserUpdateDto dto, User user){
         user.setTitle(dto.getTitle());
+        user.setRole(dto.getRole());
         user.setEmail(dto.getEmail());
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());
@@ -146,7 +151,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyUserByToken(String token) {
-        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getVerificationTokenByConfirmationToken(token);
+        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getByConfirmationToken(token);
         if (!verificationTokenOptional.isPresent()) {
             String error = "Token with id " + token + " does not exist.";
             log.error(error);
@@ -168,7 +173,7 @@ public class UserServiceImpl implements UserService {
             throw new DataValidationException("Token expired");
         }
 
-        Optional<User> userOptional = findById(verificationToken.getUserId());
+        Optional<User> userOptional = this.findById(verificationToken.getUserId());
         User user = userOptional.get();
         user.setDateVerified(new Date());
         user.setVerified(true);
@@ -183,7 +188,9 @@ public class UserServiceImpl implements UserService {
             HashMap<String, Object> model = new HashMap<>();
             model.put("name", user.getFullName());
             String content = mailContentBuilderService.build(model, "VerificationNotification");
-            emailService.sendEmail(null, null, content, "Password Reset", user.getFullName(), null);
+
+            String[] to = {user.getEmail()};
+            emailService.sendMessage("support@oneaccuracy.com", to, content, "Confirm Email");
         }
 
         return user;
@@ -194,7 +201,7 @@ public class UserServiceImpl implements UserService {
         if(user == null){
             user = new User();
         }
-
+        user.setRole(dto.getRole());
         user.setEmail(dto.getEmail());
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());

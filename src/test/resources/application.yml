@@ -2,7 +2,9 @@ server:
   port: 9001
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/userservicedbtest?useSSL=false
+    url: jdbc:mysql://localhost:3306/userservicedbtest?allowPublicKeyRetrieval=true&useSSL=false
+#    username: root
+#    password: dn24dn24
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.jdbc.Driver
@@ -10,3 +12,10 @@ spring:
     hibernate.ddl-auto: validate
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
+one-accuracy:
+  email-host: smtp.gmail.com
+  email-username: ${EMAIL_USERNAME}
+  email-password: ${EMAIL_PASSWORD}
+  email-port: 587
+  confirmToken: http://localhost:9001/api/user/verify
+  enableEmail: false

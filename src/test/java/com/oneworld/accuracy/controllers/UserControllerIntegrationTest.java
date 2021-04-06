@@ -40,8 +40,18 @@ public class UserControllerIntegrationTest {
     public static void init() {
         userCreateDto1 = new UserCreateDto(UserRole.USER, "Mister","David", "Jaiyeola", "oneaccuracy222@gmail.com", "090", "9899");
         userCreateDto2 = new UserCreateDto(UserRole.USER, "Mister","Shade", "Jaiyeola", "oneaccuracy222@gmail.com", "090", "9899");
-        userUpdateDto1 = new UserUpdateDto(UserRole.USER, "Mister","Opeyemi", "Jaiyeola", "oneaccuracy2228@gmail.com", "090", "9899");
+        userUpdateDto1 = new UserUpdateDto(UserRole.USER, "Mister","Opeyemi", "Jaiyeola", "oneaccuracy222@gmail.com", "090", "9899");
         userCreateDto3 = new UserCreateDto(UserRole.USER, "Mister","David", "Jaiyeola", "oneaccuracy222@gmail.com", "090", "9899");
+
+    }
+
+    @Test
+    public void deactivate_user() {
+
+    }
+
+    @Test
+    public void activate_user() {
 
     }
 
@@ -61,21 +71,19 @@ public class UserControllerIntegrationTest {
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
         assertThat(response.getBody().getFirstname(), is("David"));
-        //restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+response.getBody().getId());
     }
 
     @Test
     public void update_user() {
-
         HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto2);
         ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
 
         long id = response.getBody().getId();
 
-        HttpEntity<UserUpdateDto> updateRequest = new HttpEntity<UserUpdateDto>(userUpdateDto1);
+        HttpEntity<UserUpdateDto> updateRequest = new HttpEntity<>(userUpdateDto1);
         response = restTemplate.exchange("http://127.0.0.1:"+port+"/api/user/"+id, HttpMethod.PUT, updateRequest, UserDto.class);
 
-        assertThat(response.getBody().getFirstname(), is("Shade"));
+        assertThat(response.getBody().getFirstname(), is("Opeyemi"));
         assertThat(response.getBody().getId(), is(id));
         //restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
     }

@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS  user (
     `lastname` varchar(255),
     `mobile` varchar(255),
     `password` varchar(255),
-    `role` int,
-    `status` int,
+    `role` varchar(100),
+    `status` varchar(100),
     `title` varchar(255),
     `updated_at` datetime(6)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_0900_ai_ci;
