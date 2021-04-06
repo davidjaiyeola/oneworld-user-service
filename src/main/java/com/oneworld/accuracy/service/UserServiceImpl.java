@@ -89,7 +89,9 @@ public class UserServiceImpl implements UserService {
             model.put("CallbackUrl", url);
             String content = mailContentBuilderService.build(model, "UserConfirmation");
             content = content.replaceAll("CallbackUrl", confirmToken);
-            emailService.sendEmail(null, null, content, "Email Verification", user.getFullName(), null);
+
+            String[] to = {user.getEmail()};
+            emailService.sendMessage("support@oneaccuracy.com", to, content, "Confirm Email");
         }
 
         return user;
@@ -110,7 +112,9 @@ public class UserServiceImpl implements UserService {
             HashMap<String, Object> model = new HashMap<>();
             model.put("name", user.getFullName());
             String content = mailContentBuilderService.build(model, "DeactivationNotification");
-            emailService.sendEmail(null, null, content, "Password Reset", user.getFullName(), null);
+
+            String[] to = {user.getEmail()};
+            emailService.sendMessage("support@oneaccuracy.com", to, content, "Password Reset");
         }
     }
 
@@ -183,7 +187,9 @@ public class UserServiceImpl implements UserService {
             HashMap<String, Object> model = new HashMap<>();
             model.put("name", user.getFullName());
             String content = mailContentBuilderService.build(model, "VerificationNotification");
-            emailService.sendEmail(null, null, content, "Password Reset", user.getFullName(), null);
+
+            String[] to = {user.getEmail()};
+            emailService.sendMessage("support@oneaccuracy.com", to, content, "Confirm Email");
         }
 
         return user;

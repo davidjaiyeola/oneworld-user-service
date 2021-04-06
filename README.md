@@ -19,8 +19,9 @@ One Accuracy v1 user service handles api calls for user registration. It is impl
 #### Configure your local MySQL Database for Unit Tests
 1. create a database called userservicedbtest
 2. change the required settings in test/resources application.yml
-3. run: mvn test
-4. Test report are in target/site/jacoco/index.html folder. Open it in a browser
+3. Database Migrations: mvn flyway:migrate -Dflyway.url=jdbc:mysql://localhost:3306/userservicedbtest?useSSL=false -Dflyway.user= -Dflyway.password=
+4. run: mvn test
+5. Test report are in target/site/jacoco/index.html folder. Open it in a browser
 
 
 ### Running Local Devserver
