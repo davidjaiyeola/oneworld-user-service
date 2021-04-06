@@ -64,7 +64,7 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserCreateDto userCreateDto) {
         Optional<User> userOptional = userService.findByEmail(userCreateDto.getEmail());
-        User user = userService.createDtoToEntity(userCreateDto, userOptional.get());;
+        User user = userService.createDtoToEntity(userCreateDto, (userOptional.isEmpty()?null:userOptional.get()));
 
         return ResponseEntity.ok(userService.entityToDto(userService.createOrUpdate(user)));
     }

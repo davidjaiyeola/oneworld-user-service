@@ -140,6 +140,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateDtoToEntity(UserUpdateDto dto, User user){
         user.setTitle(dto.getTitle());
+        user.setRole(dto.getRole());
         user.setEmail(dto.getEmail());
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());
@@ -200,7 +201,7 @@ public class UserServiceImpl implements UserService {
         if(user == null){
             user = new User();
         }
-
+        user.setRole(dto.getRole());
         user.setEmail(dto.getEmail());
         user.setFirstname(dto.getFirstname());
         user.setLastname(dto.getLastname());
