@@ -27,7 +27,6 @@ public class MailContentBuilderServiceUnitTests {
     private MailContentBuilderService mailContentBuilderService;
 
     private static User user1;
-    private static User user2;
 
     @Before
     public void setup(){
@@ -37,7 +36,6 @@ public class MailContentBuilderServiceUnitTests {
     @BeforeAll
     public static void init() {
         user1 = new User(UserStatus.REGISTERED, UserRole.USER,"David","J","oneaccuracy@gmail.com");
-        user2 = new User(UserStatus.VERIFIED, UserRole.USER,"Test","Verified","oneaccuracy2@gmail.com");
     }
 
     @Test

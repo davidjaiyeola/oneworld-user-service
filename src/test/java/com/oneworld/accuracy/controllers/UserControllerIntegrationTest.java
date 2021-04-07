@@ -1,7 +1,11 @@
 package com.oneworld.accuracy.controllers;
 
 
-import com.oneworld.accuracy.dto.*;
+import com.oneworld.accuracy.dto.UserDto;
+import com.oneworld.accuracy.dto.UserCreateDto;
+import com.oneworld.accuracy.dto.UserUpdateDto;
+import com.oneworld.accuracy.dto.VerificationTokenDto;
+import com.oneworld.accuracy.dto.ExceptionDto;
 import com.oneworld.accuracy.model.UserRole;
 import com.oneworld.accuracy.model.UserStatus;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +24,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)

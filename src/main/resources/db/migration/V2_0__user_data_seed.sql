@@ -1,4 +1,4 @@
-INSERT INTO user (id, verified, created_at, date_deactivated, date_registered, date_verified, email, firstname, lastname, mobile, password, role, status, title, updated_at) VALUES
+INSERT INTO `user` (id, verified, created_at, date_deactivated, date_registered, date_verified, email, firstname, lastname, mobile, password, role, status, title, updated_at) VALUES
 (4,1, '2021-04-04 20:35:07', '2021-04-04 20:35:07', '2021-04-04 20:35:07', '2021-04-04 20:35:07', 'david@gmail.com', 'David', 'Jaiyeola', '090', 'password', 'ADMIN', 'REGISTERED', 'Mr', '2021-04-04 20:35:07'),
 (5,1, '2021-04-04 20:35:07', '2021-04-04 20:35:07', '2021-04-04 20:35:07', '2021-04-04 20:35:07', 'david2@gmail.com', 'David', 'Jaiyeola', '090', 'password', 'USER', 'REGISTERED', 'Mr', '2021-04-04 20:35:07'),
 (6,1, '2021-04-04 20:35:07', '2021-04-04 20:35:07', '2021-04-04 20:35:07', '2021-04-04 20:35:07', 'david2@gmail.com', 'David', 'Jaiyeola', '090', 'password', 'ADMIN', 'REGISTERED', 'Mr', '2021-04-04 20:35:07')                                                                                                                                                                                    ;
