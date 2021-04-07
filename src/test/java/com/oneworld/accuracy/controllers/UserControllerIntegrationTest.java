@@ -1,5 +1,6 @@
 package com.oneworld.accuracy.controllers;
 
+
 import com.oneworld.accuracy.dto.*;
 import com.oneworld.accuracy.model.UserRole;
 import com.oneworld.accuracy.model.UserStatus;
@@ -30,7 +31,6 @@ public class UserControllerIntegrationTest {
     private static UserCreateDto userCreateDto2;
     private static UserCreateDto userCreateDto3;
     private static UserUpdateDto userUpdateDto1;
-    private static UserUpdateDto userUpdateDto2;
 
     @LocalServerPort
     private int port;

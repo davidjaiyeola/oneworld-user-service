@@ -34,8 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserControllerUnitTest {
 
     private static User user1;
-    private static User user2;
-    private static User user3;
     private static UserDto dto;
     private static UserCreateDto userCreateDto;
     private static UserUpdateDto userUpdateDto;
@@ -53,10 +51,7 @@ public class UserControllerUnitTest {
     @BeforeAll
     public static void init() {
         user1 = new User(UserStatus.REGISTERED, UserRole.USER,"Test","Registered","oneaccuracy@gmail.com");
-        user2 = new User(UserStatus.VERIFIED, UserRole.USER,"Test","Verified","oneaccuracy2@gmail.com");
-        user3 = new User(UserStatus.REGISTERED, UserRole.ADMIN,"Opeyemi","Admin","oneaccuracy22@gmail.com");
         userCreateDto = new UserCreateDto(UserRole.USER, "Mister","David", "Jaiyeola", "oneaccuracy@gmail.com", "090", "9899");
-//        userUpdateDto = new UserUpdateDto(UserRole.USER, "Mister","Opeyemi", "Jaiyeola", "oneaccuracy2228@gmail.com", "090", "9899");
         userUpdateDto = new UserUpdateDto();
         userUpdateDto.setEmail("oneaccuracy2228@gmail.com");
         userUpdateDto.setFirstname("Jaiyeola");

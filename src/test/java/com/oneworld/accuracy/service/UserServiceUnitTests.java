@@ -41,7 +41,6 @@ public class UserServiceUnitTests {
     private static User user3;
     private static User user4;
     private static VerificationToken verificationToken1;
-    private static VerificationToken verificationToken2;
     private static UserDto userDto1;
     private static UserCreateDto userCreateDto1;
     private static UserUpdateDto userUpdateDto1;
