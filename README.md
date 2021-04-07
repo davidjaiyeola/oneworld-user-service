@@ -23,6 +23,7 @@ One Accuracy v1 user service handles api calls for user registration. It is impl
  4.  run: mvn test -DMYSQL_USERNAME= -DMYSQL_PASSWORD= -DEMAIL_USERNAME= -DEMAIL_PASSWORD=
  5.  Test report are in target/site/jacoco/index.html folder. Open it in a browser
 
+
 ### Running Local Devserver
 #### Steps to configure local dev environment
  1.  create a database called userservicedb
