@@ -4,16 +4,16 @@ One Accuracy v1 user service handles api calls for user registration. It is impl
 
 #### Technologies and Frameworks
 
-  *  Spring Boot 2
-  *  JPA
-  *  Hibernate 5 
-  *  Lombok
-  *  JUnit 5
-  *  Mockito 2
-  *  MySQL 8+ (InnoDB)
-  *  Docker
-  *  Spring Boot Admin
-  *  Jacoco plugin
+*  Spring Boot 2
+*  JPA
+*  Hibernate 5 
+*  Lombok
+*  JUnit 5
+*  Mockito 2
+*  MySQL 8+ (InnoDB)
+*  Docker
+*  Spring Boot Admin
+*  Jacoco plugin
 
 ### Running Unit Tests
 #### Steps to configure Unit Tests
@@ -49,7 +49,7 @@ One Accuracy v1 user service handles api calls for user registration. It is impl
  9. Logs: docker logs -f user-service
 
 ### Swagger documentation
-  *  http://localhost:9001/swagger-ui.html
+*  http://localhost:9001/swagger-ui.html
 
 ### Logging & Monitoring
-  *  http://localhost:9001
+*  http://localhost:9001
