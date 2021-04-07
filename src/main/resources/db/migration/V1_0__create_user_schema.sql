@@ -16,3 +16,4 @@ CREATE TABLE IF NOT EXISTS  `user` (
     `updated_at` datetime(6)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_0900_ai_ci;
 
+
