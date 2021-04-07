@@ -4,6 +4,7 @@ import com.oneworld.accuracy.dto.UserCreateDto;
 import com.oneworld.accuracy.dto.UserDto;
 import com.oneworld.accuracy.dto.UserUpdateDto;
 import com.oneworld.accuracy.model.UserRole;
+import com.oneworld.accuracy.model.UserStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +48,26 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void deactivate_user() {
+        HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto3);
+        ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
+        long id = response.getBody().getId();
+        response = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/"+id, UserDto.class);
 
+        assertThat(response.getBody().getId(), is(id));
+        assertThat(response.getBody().getStatus(), is(UserStatus.REGISTERED.getName()));
+
+        //then deactivate
+        response = restTemplate.exchange("http://127.0.0.1:"+port+"/api/user/"+id, HttpMethod.DELETE,null, UserDto.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+
+        //Find
+        response = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/"+id, UserDto.class);
+        assertThat(response.getBody().getId(), is(id));
+        assertThat(response.getBody().getStatus(), is(UserStatus.DEACTIVATED.getName()));
+        assertThat(response.getBody().getDateDeactivated(), is(notNullValue()));
+
+        //Delete from db
+        restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
     }
 
     @Test
@@ -71,6 +91,8 @@ public class UserControllerIntegrationTest {
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
         assertThat(response.getBody().getFirstname(), is("David"));
+
+        restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+response.getBody().getId());
     }
 
     @Test
@@ -85,7 +107,7 @@ public class UserControllerIntegrationTest {
 
         assertThat(response.getBody().getFirstname(), is("Opeyemi"));
         assertThat(response.getBody().getId(), is(id));
-        //restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
+        restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
     }
 
     @Test
@@ -98,6 +120,6 @@ public class UserControllerIntegrationTest {
 
         assertThat(response.getBody().getId(), is(id));
         assertThat(response.getBody().getFirstname(), equalTo(userCreateDto3.getFirstname()));
-        //restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
+        restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
     }
 }
