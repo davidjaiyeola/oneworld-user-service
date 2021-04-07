@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @ExceptionHandler(Throwable.class)
-    public ExceptionDto handleException(Throwable ex) {
+    public ResponseEntity<ExceptionDto> handleException(Throwable ex) {
         ExceptionDto exceptionDto = new ExceptionDto();
         exceptionDto.setValid(false);
         exceptionDto.setErrorDescription(ex.getMessage());
@@ -42,7 +42,7 @@ public class UserController {
             exceptionDto.setResponseCode("99");
         }
 
-        return exceptionDto;
+        return new ResponseEntity<>(exceptionDto,HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get Users", response = List.class, produces = "application/json")
