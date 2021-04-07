@@ -21,14 +21,10 @@ import static org.mockito.Mockito.doNothing;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class EmailServiceUnitTests {
-
-    @Mock
-    private MimeMessage message;
     @Mock
     private JavaMailSender javaMailSender;
     @InjectMocks
     private EmailService emailService = new EmailService(javaMailSender);
-    private ArgumentCaptor<MimeMessagePreparator> preparatorArgumentCaptor;
     private MimeMessage mimeMessage;
 
     @Before
@@ -38,7 +34,7 @@ public class EmailServiceUnitTests {
 
     @Test
     public void shouldSendEmail() throws Exception {
-        preparatorArgumentCaptor = ArgumentCaptor.forClass(MimeMessagePreparator.class);
+        ArgumentCaptor<MimeMessagePreparator> preparatorArgumentCaptor = ArgumentCaptor.forClass(MimeMessagePreparator.class);
         doNothing().when(javaMailSender).send(preparatorArgumentCaptor.capture());
 
         mimeMessage = new JavaMailSenderImpl().createMimeMessage();

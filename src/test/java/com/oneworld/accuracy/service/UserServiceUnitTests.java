@@ -41,7 +41,6 @@ public class UserServiceUnitTests {
     private static User user3;
     private static User user4;
     private static VerificationToken verificationToken1;
-    private static VerificationToken verificationToken2;
     private static UserDto userDto1;
     private static UserCreateDto userCreateDto1;
     private static UserUpdateDto userUpdateDto1;
@@ -74,14 +73,14 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void find_user_by_email() {
+    public void findUserByEmail() {
         Mockito.when(userRepository.findByEmail("oneaccuracy@gmail.com")).thenReturn(Optional.of(user1));
         assertThat(userService.findByEmail("oneaccuracy@gmail.com").get().getEmail(), is("oneaccuracy@gmail.com"));
         Mockito.verify(userRepository, Mockito.times(1)).findByEmail("oneaccuracy@gmail.com");
     }
 
     @Test
-    public void find_all_paginated_when_no_record() {
+    public void findAllPaginatedWhenNoRecord() {
         Pageable paging = PageRequest.of(0, 10, Sort.by("id"));
         Mockito.when(userRepository.findAll(paging)).thenReturn(userPage);
         assertThat(userService.findAllPaginated(0,10,"id" ).size(), is(0));
@@ -89,7 +88,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void find_all_paginated_when_there_is_record() {
+    public void findAllPaginatedWhenThereIsRecord() {
         Pageable paging = PageRequest.of(0, 10, Sort.by("id"));
         Page<User> userPageList = new PageImpl(Arrays.asList(user1,user2));
         Mockito.when(userRepository.findAll(paging)).thenReturn(userPageList);
@@ -98,14 +97,14 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void find_all_when_No_Record() {
+    public void findAllWhenNoRecord() {
         Mockito.when(userRepository.findAll()).thenReturn(Arrays.asList());
         assertThat(userService.findAll().size(), is(0));
         Mockito.verify(userRepository, Mockito.times(1)).findAll();
     }
 
     @Test
-    public void find_all_when_there_is_record() {
+    public void findAllWhenThereIsRecord() {
         Mockito.when(userRepository.findAll()).thenReturn(Arrays.asList(user1,user2));
         assertThat(userService.findAll().size(), is(2));
         assertThat(userService.findAll().get(0), is(user1));
@@ -114,14 +113,14 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void find_user_by_id() {
+    public void findUserById() {
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
         assertThat(userService.findById(1L), is(Optional.of(user1)));
         Mockito.verify(userRepository, Mockito.times(1)).findById(1L);
     }
 
     @Test
-    public void deactivate_user_by_id() throws DataValidationException {
+    public void deactivateUserById() throws DataValidationException {
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user3));
         userService.deactivateUser(1L);
         assertThat(user3.getStatus(), is(UserStatus.DEACTIVATED));
@@ -129,7 +128,7 @@ public class UserServiceUnitTests {
         Mockito.verify(userRepository, Mockito.times(1)).findById(1L);
     }
     @Test
-    void create_or_update_user() {
+    void createOrUpdateUser() {
         Mockito.when(userRepository.save(user1)).thenReturn(user1);
         assertThat(userService.createOrUpdate(user1), is(user1));
         Mockito.verify(userRepository, Mockito.times(1)).save(user1);
@@ -141,28 +140,28 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    void delete_user_by_id() {
+    void deleteUserById() {
         userService.deleteById(1L);
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(1L);
     }
 
     @Test
-    public void user_to_dto() {
+    public void userToDto() {
         assertThat(userService.entityToDto(user4).getFirstname(), is(user4.getFirstname()));
     }
 
     @Test
-    public void create_dto_to_entity() {
+    public void createDtoToEntity() {
         assertThat(userService.createDtoToEntity(userCreateDto1,user4).getFirstname(), is(user4.getFirstname()));
     }
 
     @Test
-    public void update_dto_to_entity() {
+    public void updateDtoToEntity() {
         assertThat(userService.updateDtoToEntity(userUpdateDto1,user4).getFirstname(), is(user4.getFirstname()));
     }
 
     @Test
-    public void successfully_verify_user_by_token(){
+    public void successfullyVerifyUserByToken(){
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
         Mockito.when(verificationTokenRepository.getByConfirmationToken(verificationToken1.getConfirmationToken())).thenReturn(Optional.of(verificationToken1));
         assertThat(userService.verifyUserByToken(verificationToken1.getConfirmationToken()).isVerified(), is(true));

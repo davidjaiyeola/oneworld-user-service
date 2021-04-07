@@ -41,13 +41,13 @@ public class MailContentBuilderServiceUnitTests {
     }
 
     @Test
-    public void returns_empty_string_when_model_is_null() {
+    public void returnsEmptyStringWhenModelIsNull() {
         String content = mailContentBuilderService.build(null, "UserConfirmation");
         assertThat(content, is(""));
     }
 
     @Test
-    public void content_contains_string() {
+    public void contentContainsString() {
         HashMap<String, Object> model = new HashMap<>();
         model.put("name", user1.getFullName());
         model.put("date", LocalDate.now().toString());
