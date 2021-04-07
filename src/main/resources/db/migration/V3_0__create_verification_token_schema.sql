@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS  verification_token (
+CREATE TABLE IF NOT EXISTS  `verification_token` (
 `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `activated` bit NOT NULL,
 `expired` bit NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS  user (
+CREATE TABLE IF NOT EXISTS  `user` (
 `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `verified` bit NOT NULL,
 `created_at` datetime(6),

@@ -25,7 +25,6 @@ public class EmailServiceUnitTests {
     private JavaMailSender javaMailSender;
     @InjectMocks
     private EmailService emailService = new EmailService(javaMailSender);
-    private MimeMessage mimeMessage;
 
     @Before
     public void setupMocks() {
@@ -37,7 +36,7 @@ public class EmailServiceUnitTests {
         ArgumentCaptor<MimeMessagePreparator> preparatorArgumentCaptor = ArgumentCaptor.forClass(MimeMessagePreparator.class);
         doNothing().when(javaMailSender).send(preparatorArgumentCaptor.capture());
 
-        mimeMessage = new JavaMailSenderImpl().createMimeMessage();
+        MimeMessage mimeMessage = new JavaMailSenderImpl().createMimeMessage();
 
         // given
         String from = "from@dail.com";
