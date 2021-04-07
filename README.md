@@ -38,7 +38,7 @@ One Accuracy v1 user service handles api calls for user registration. It is impl
  3.  run: mvn clean install -o -DskipTests
  4.  Database Migrations: mvn flyway:migrate -Dflyway.url=jdbc:mysql://localhost:3306/userservicedbdocker?useSSL=false -Dflyway.user= -Dflyway.password=
  5. Build image: ./docker.sh to build
- 6. Stop the service if its already running: docker stop user-service
+ 6.  Stop the service if its already running: docker stop user-service
  7.  Remove the service: docker rm user-service.
  8.  Run application: docker run -d --name user-service -e SPRING_PROFILES_ACTIVE=docker -e MYSQL_USERNAME= -e MYSQL_PASSWORD= -e EMAIL_USERNAME= -e EMAIL_PASSWORD= -p 9200:9001 user-service:1.0-SNAPSHOT
  9.  Logs: docker logs -f user-service
@@ -47,4 +47,4 @@ One Accuracy v1 user service handles api calls for user registration. It is impl
 *  http://localhost:9001/swagger-ui.html
 
 ### Logging & Monitoring
-  *  http://localhost:9001
+*  http://localhost:9001
