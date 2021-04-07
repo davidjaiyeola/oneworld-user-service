@@ -1,9 +1,6 @@
 package com.oneworld.accuracy.controllers;
 
-import com.oneworld.accuracy.dto.UserCreateDto;
-import com.oneworld.accuracy.dto.UserDto;
-import com.oneworld.accuracy.dto.UserUpdateDto;
-import com.oneworld.accuracy.dto.VerificationTokenDto;
+import com.oneworld.accuracy.dto.*;
 import com.oneworld.accuracy.model.UserRole;
 import com.oneworld.accuracy.model.UserStatus;
 import org.junit.jupiter.api.BeforeAll;
@@ -147,4 +144,12 @@ public class UserControllerIntegrationTest {
         assertThat(response.getBody().getFirstname(), equalTo(userCreateDto3.getFirstname()));
         restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
     }
+
+    @Test
+    public void data_validation_global_error() {
+        ResponseEntity<ExceptionDto> response = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/"+4552, ExceptionDto.class);
+        assertThat(response.getBody().getResponseCode(), is("22"));
+        assertThat(response.getBody().getError(), is("Data Validation"));
+    }
+
 }
