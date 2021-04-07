@@ -48,7 +48,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void deactivate_user() {
+    public void deactivateUser() {
         HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto3);
         ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
         long id = response.getBody().getId();
@@ -72,7 +72,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void activate_user() {
+    public void activateUser() {
         //Create
         HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto3);
         ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
@@ -107,7 +107,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void create_new_user() {
+    public void createNewUser() {
         HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto1);
         ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
 
@@ -118,7 +118,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void update_user() {
+    public void updateUser() {
         HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto2);
         ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
 
@@ -146,7 +146,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void data_validation_global_error() {
+    public void dataValidationGlobalError() {
         ResponseEntity<ExceptionDto> response = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/"+4552, ExceptionDto.class);
         assertThat(response.getBody().getResponseCode(), is("22"));
         assertThat(response.getBody().getError(), is("Data Validation"));

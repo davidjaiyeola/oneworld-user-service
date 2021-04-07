@@ -85,7 +85,7 @@ public class UserControllerUnitTest {
     }
 
     @Test
-    void update_when_user_not_found() {
+    void updateWhenUserNotFound() {
         Mockito.when(userService.findById(1L)).thenReturn(Optional.empty());
         AtomicReference<ResponseEntity<UserDto>> userDtoResponseEntity = null;
         Exception exception = assertThrows(DataValidationException.class, () -> {
@@ -95,7 +95,7 @@ public class UserControllerUnitTest {
     }
 
     @Test
-    void update_when_user_found() {
+    void updateWhenUserFound() {
 
         Mockito.when(userService.findById(1L)).thenReturn(Optional.of(user1));
 
