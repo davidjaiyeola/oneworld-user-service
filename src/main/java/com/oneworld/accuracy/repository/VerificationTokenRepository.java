@@ -10,6 +10,6 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
     @Query("SELECT v FROM VerificationToken v WHERE v.confirmationToken = ?1")
     Optional<VerificationToken> getByConfirmationToken(String confirmationToken);
 
-//    @Query("SELECT u FROM VerificationToken u WHERE u.confirmationToken = :confirmationToken")
-//    Optional<VerificationToken>  getByConfirmationToken(@Param("confirmationToken") String confirmationToken);
+    @Query("SELECT v FROM VerificationToken v WHERE v.userId = ?1 and v.expired=false")
+    Optional<VerificationToken> getTokenByUserId(Long userId);
 }
