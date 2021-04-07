@@ -3,7 +3,9 @@ package com.oneworld.accuracy.service;
 import com.oneworld.accuracy.dto.UserCreateDto;
 import com.oneworld.accuracy.dto.UserDto;
 import com.oneworld.accuracy.dto.UserUpdateDto;
+import com.oneworld.accuracy.dto.VerificationTokenDto;
 import com.oneworld.accuracy.model.User;
+import com.oneworld.accuracy.model.VerificationToken;
 import com.oneworld.accuracy.util.DataValidationException;
 
 import java.util.List;
@@ -22,5 +24,7 @@ public interface UserService {
     User createDtoToEntity(UserCreateDto dto, User user);
     User updateDtoToEntity(UserUpdateDto dto, User user);
 
+    VerificationToken getTokenByUserId(Long userId);
+    VerificationTokenDto verificationTokenToDto(VerificationToken verificationToken);
     User verifyUserByToken(String token);
 }

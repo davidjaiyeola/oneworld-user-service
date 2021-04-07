@@ -3,6 +3,7 @@ package com.oneworld.accuracy.service;
 import com.oneworld.accuracy.dto.UserCreateDto;
 import com.oneworld.accuracy.dto.UserDto;
 import com.oneworld.accuracy.dto.UserUpdateDto;
+import com.oneworld.accuracy.dto.VerificationTokenDto;
 import com.oneworld.accuracy.model.User;
 import com.oneworld.accuracy.model.UserStatus;
 import com.oneworld.accuracy.model.VerificationToken;
@@ -212,6 +213,12 @@ public class UserServiceImpl implements UserService {
     }
 
     protected VerificationToken createToken(Long userId){
+        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getTokenByUserId(userId);
+        if(verificationTokenOptional.isPresent()){
+            verificationTokenOptional.get().setExpired(true);
+            verificationTokenRepository.save(verificationTokenOptional.get());
+        }
+
         VerificationToken verificationToken =  new VerificationToken();
         verificationToken.setActivated(false);
         //@TODO encode to base64
@@ -223,7 +230,26 @@ public class UserServiceImpl implements UserService {
         verificationTokenRepository.save(verificationToken);
 
         return verificationToken;
-
     }
 
+    @Override
+    public VerificationToken getTokenByUserId(Long userId){
+        Optional<VerificationToken> verificationTokenOptional  = verificationTokenRepository.getTokenByUserId(userId);
+        if (!verificationTokenOptional.isPresent()) {
+            String error = "Token with userId " + userId + " does not exist.";
+            log.error(error);
+            throw new DataValidationException(error);
+        }
+        return verificationTokenOptional.get();
+    }
+
+    @Override
+    public VerificationTokenDto verificationTokenToDto(VerificationToken verificationToken){
+        return new VerificationTokenDto(verificationToken.getId(),
+                verificationToken.getConfirmationToken(),
+                verificationToken.getUserId(),
+                verificationToken.isActivated(),
+                verificationToken.isExpired(),
+                verificationToken.getExpiryDate());
+    }
 }

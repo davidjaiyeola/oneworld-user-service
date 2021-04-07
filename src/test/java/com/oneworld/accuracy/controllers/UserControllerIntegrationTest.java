@@ -3,6 +3,7 @@ package com.oneworld.accuracy.controllers;
 import com.oneworld.accuracy.dto.UserCreateDto;
 import com.oneworld.accuracy.dto.UserDto;
 import com.oneworld.accuracy.dto.UserUpdateDto;
+import com.oneworld.accuracy.dto.VerificationTokenDto;
 import com.oneworld.accuracy.model.UserRole;
 import com.oneworld.accuracy.model.UserStatus;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,8 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Date;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -72,7 +76,28 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void activate_user() {
+        //Create
+        HttpEntity<UserCreateDto> request = new HttpEntity<>(userCreateDto3);
+        ResponseEntity<UserDto> response = restTemplate.postForEntity("http://127.0.0.1:"+port+"/api/user", request, UserDto.class);
+        long id = response.getBody().getId();
+        response = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/"+id, UserDto.class);
+        assertThat(response.getBody().getId(), is(id));
+        assertThat(response.getBody().getStatus(), is(UserStatus.REGISTERED.getName()));
 
+        //Get Token
+        ResponseEntity<VerificationTokenDto> verificationTokenDtoResponseEntity = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/token/"+id, VerificationTokenDto.class);
+        assertThat(verificationTokenDtoResponseEntity.getBody().getUserId(), is(id));
+        assertTrue(verificationTokenDtoResponseEntity.getBody().getExpiryDate().getTime() > new Date().getTime());
+        assertThat(verificationTokenDtoResponseEntity.getBody().getConfirmationToken(), is(notNullValue()));
+
+        //Activate
+        response = restTemplate.getForEntity("http://127.0.0.1:"+port+"/api/user/verify/"+verificationTokenDtoResponseEntity.getBody().getConfirmationToken(), UserDto.class);
+        assertThat(response.getBody().getId(), is(id));
+        assertThat(response.getBody().getStatus(), is(UserStatus.VERIFIED.getName()));
+        assertThat(response.getBody().getDateVerified(), is(notNullValue()));
+
+        //Delete from db
+        restTemplate.delete("http://127.0.0.1:"+port+"/user/deleteFromDB/"+id);
     }
 
     @Test

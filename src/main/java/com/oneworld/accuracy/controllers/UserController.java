@@ -1,9 +1,6 @@
 package com.oneworld.accuracy.controllers;
 
-import com.oneworld.accuracy.dto.ExceptionDto;
-import com.oneworld.accuracy.dto.UserCreateDto;
-import com.oneworld.accuracy.dto.UserDto;
-import com.oneworld.accuracy.dto.UserUpdateDto;
+import com.oneworld.accuracy.dto.*;
 import com.oneworld.accuracy.model.User;
 import com.oneworld.accuracy.service.UserService;
 import com.oneworld.accuracy.util.DataValidationException;
@@ -84,6 +81,12 @@ public class UserController {
     @GetMapping("/user/verify/{token}")
     public ResponseEntity<UserDto> verifyUserById(@PathVariable String token) {
         return ResponseEntity.ok(userService.entityToDto(userService.verifyUserByToken(token)));
+    }
+
+    @ApiOperation(value = "Get token by userId", response = VerificationTokenDto.class, produces = "application/json")
+    @GetMapping("/user/token/{userId}")
+    public ResponseEntity<VerificationTokenDto> getTokenByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.verificationTokenToDto(userService.getTokenByUserId(userId)));
     }
 
     @ApiOperation(value = "Update User", response = UserDto.class, consumes = "application/json", produces = "application/json")
